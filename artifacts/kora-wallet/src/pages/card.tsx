@@ -135,6 +135,12 @@ export default function Card() {
                 <div>
                   <div className="text-2xl font-black tracking-wide leading-none">KORA</div>
                   <div className="text-[10px] tracking-[0.2em] opacity-90 mt-1.5 font-semibold">CRYPTO MASTERCARD</div>
+                  {/* Chip — directly under CRYPTO MASTERCARD, left-aligned */}
+                  <div className="mt-3 w-12 h-9 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-inner ring-1 ring-amber-700/40 relative overflow-hidden">
+                    <div className="absolute inset-1 grid grid-cols-2 grid-rows-3 gap-px opacity-40">
+                      {Array.from({ length: 6 }).map((_, i) => <div key={i} className="bg-amber-800/40 rounded-[1px]" />)}
+                    </div>
+                  </div>
                 </div>
                 <img
                   src={logo}
@@ -143,17 +149,8 @@ export default function Card() {
                 />
               </div>
 
-              {/* Chip */}
-              <div className="absolute left-7 top-[88px]">
-                <div className="w-12 h-9 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-inner ring-1 ring-amber-700/40 relative overflow-hidden">
-                  <div className="absolute inset-1 grid grid-cols-2 grid-rows-3 gap-px opacity-40">
-                    {Array.from({ length: 6 }).map((_, i) => <div key={i} className="bg-amber-800/40 rounded-[1px]" />)}
-                  </div>
-                </div>
-              </div>
-
               {/* Card number (auto-generated from order data) */}
-              <div className="font-mono text-[17px] tracking-[0.18em] [text-shadow:0_2px_4px_rgba(0,0,0,0.4)] -mt-2">
+              <div className="font-mono text-[20px] tracking-[0.18em] [text-shadow:0_2px_4px_rgba(0,0,0,0.4)]">
                 {generateCardNumber(cardOrder?.name || name || walletId || "")}
               </div>
 
