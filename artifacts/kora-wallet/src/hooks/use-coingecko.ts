@@ -1,7 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 
 const COINGECKO_API = "https://api.coingecko.com/api/v3";
-const CRYPTO_COMPARE_NEWS_API = "https://min-api.cryptocompare.com/data/v2/news/?lang=EN";
+
+const NEWS_FEEDS: { source: string; url: string }[] = [
+  { source: "Cointelegraph", url: "https://cointelegraph.com/rss" },
+  { source: "CoinDesk", url: "https://www.coindesk.com/arc/outboundfeeds/rss" },
+  { source: "Decrypt", url: "https://decrypt.co/feed" },
+  { source: "Bitcoin Magazine", url: "https://bitcoinmagazine.com/.rss/full/" },
+  { source: "The Block", url: "https://www.theblock.co/rss.xml" },
+];
 
 export interface CoinMarketData {
   id: string;
@@ -70,25 +77,84 @@ export interface NewsArticle {
   title: string;
   url: string;
   imageurl: string;
-  source_info: {
-    name: string;
-    img: string;
-    lang: string;
-  };
+  source: string;
   published_on: number;
   body: string;
   tags: string;
 }
 
+interface RssItem {
+  title: string;
+  link: string;
+  guid?: string;
+  pubDate: string;
+  description?: string;
+  content?: string;
+  thumbnail?: string;
+  enclosure?: { link?: string; thumbnail?: string };
+  categories?: string[];
+}
+
+interface Rss2JsonResponse {
+  status: string;
+  feed?: { title?: string; image?: string };
+  items?: RssItem[];
+}
+
+function extractImage(item: RssItem): string {
+  if (item.thumbnail) return item.thumbnail;
+  if (item.enclosure?.link) return item.enclosure.link;
+  if (item.enclosure?.thumbnail) return item.enclosure.thumbnail;
+  const html = item.content || item.description || "";
+  const match = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (match) return match[1];
+  return "";
+}
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+}
+
+async function fetchFeed(feed: { source: string; url: string }): Promise<NewsArticle[]> {
+  const proxied = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+  try {
+    const res = await fetch(proxied);
+    if (!res.ok) return [];
+    const json: Rss2JsonResponse = await res.json();
+    if (json.status !== "ok" || !Array.isArray(json.items)) return [];
+    return json.items.map((it, idx) => ({
+      id: it.guid || `${feed.source}-${idx}-${it.link}`,
+      title: it.title,
+      url: it.link,
+      imageurl: extractImage(it),
+      source: feed.source,
+      published_on: Math.floor(new Date(it.pubDate).getTime() / 1000) || 0,
+      body: stripHtml(it.description || it.content || "").slice(0, 280),
+      tags: (it.categories || []).join(",").toUpperCase(),
+    }));
+  } catch {
+    return [];
+  }
+}
+
 export function useCryptoNews() {
-  return useQuery<{ Data: NewsArticle[] }>({
+  return useQuery<NewsArticle[]>({
     queryKey: ["crypto-news"],
     queryFn: async () => {
-      const res = await fetch(CRYPTO_COMPARE_NEWS_API);
-      if (!res.ok) throw new Error("Failed to fetch crypto news");
-      return res.json();
+      const results = await Promise.all(NEWS_FEEDS.map(fetchFeed));
+      const all = results.flat().filter((a) => a.title && a.url);
+      // Sort newest first
+      all.sort((a, b) => b.published_on - a.published_on);
+      // Dedupe by URL
+      const seen = new Set<string>();
+      const unique = all.filter((a) => {
+        if (seen.has(a.url)) return false;
+        seen.add(a.url);
+        return true;
+      });
+      return unique.slice(0, 60);
     },
-    staleTime: 2 * 60 * 1000, // 2 min
-    refetchInterval: 2 * 60 * 1000,
+    staleTime: 2 * 60 * 1000,
+    refetchInterval: 5 * 60 * 1000,
   });
 }
