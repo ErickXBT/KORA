@@ -30,7 +30,7 @@ export default function News() {
   useEffect(() => { if (!walletId) setLocation("/"); }, [walletId, setLocation]);
   if (!walletId) return null;
 
-  const articles = data || [];
+  const articles = Array.isArray(data) ? data : [];
   const sources = ["ALL", ...Array.from(new Set(articles.map((a) => a.source.toUpperCase())))];
   const filtered = filter === "ALL" ? articles : articles.filter((a) => a.source.toUpperCase() === filter);
 
