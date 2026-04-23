@@ -11,6 +11,7 @@ import { SendModal } from "@/components/modals/SendModal";
 import { SettingsModal } from "@/components/modals/SettingsModal";
 import { Settings, ArrowDownLeft, ArrowUpRight, RefreshCw, Copy, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Logo } from "@/components/Logo";
 
 export default function Trade() {
   const [, setLocation] = useLocation();
@@ -102,7 +103,7 @@ export default function Trade() {
                 <div>
                   <label className="text-[10px] text-muted-foreground tracking-widest font-bold">YOU PAY</label>
                   <div className="mt-2 flex items-center gap-2 p-3 bg-secondary/40 rounded-lg border border-border/40">
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-red-900 flex items-center justify-center text-white text-xs font-bold">K</div>
+                    <Logo size={28} />
                     <Input
                       type="number"
                       value={pay}

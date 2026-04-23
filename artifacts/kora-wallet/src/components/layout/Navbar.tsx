@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useWallet } from "@/hooks/use-wallet";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/Logo";
 
 const navItems = [
   { href: "/wallet", label: "WALLET", icon: Wallet },
@@ -37,9 +38,7 @@ export function Navbar() {
     <nav className="fixed top-0 left-0 right-0 h-16 bg-background border-b border-border/40 z-50 flex items-center justify-between px-6">
       <div className="flex items-center gap-8">
         <Link href="/wallet" className="flex items-center gap-2 cursor-pointer group">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-red-900 flex items-center justify-center shadow-[0_0_15px_rgba(255,38,37,0.5)] group-hover:shadow-[0_0_25px_rgba(255,38,37,0.7)] transition-all">
-            <span className="text-white font-bold tracking-tighter text-sm">K</span>
-          </div>
+          <Logo size={32} glow />
           <span className="text-lg font-bold tracking-widest uppercase text-white">KORA</span>
         </Link>
 
@@ -68,7 +67,7 @@ export function Navbar() {
 
       <div className="flex items-center gap-4">
         <div className="hidden sm:flex items-center gap-3 px-4 py-1.5 rounded-full bg-secondary/50 border border-border">
-          <span className="text-sm font-medium text-white">{solBalance.toFixed(2)} SOL</span>
+          <span className="text-sm font-medium text-white">{solBalance.toFixed(2)} KORA</span>
         </div>
 
         <div className="flex items-center gap-2">

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
 import { useWallet } from "@/hooks/use-wallet";
+import { Logo } from "@/components/Logo";
 import { useToast } from "@/hooks/use-toast";
 
 interface Props {
@@ -42,9 +43,7 @@ export function SendModal({ open, onOpenChange, onDeposit }: Props) {
           </div>
 
           <div className="flex flex-col items-center text-center mb-6">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-red-900 flex items-center justify-center mb-3 shadow-[0_0_25px_rgba(255,38,37,0.5)]">
-              <span className="text-white font-bold text-2xl">K</span>
-            </div>
+            <Logo size={64} glow className="mb-3" />
             <h3 className="text-xl font-bold tracking-wider text-white">SEND KORA</h3>
             <p className="text-xs text-muted-foreground mt-1">Transfer KORA to any wallet</p>
           </div>
