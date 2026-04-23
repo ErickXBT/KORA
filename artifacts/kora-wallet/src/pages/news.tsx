@@ -23,9 +23,11 @@ export default function News() {
   useEffect(() => { if (!walletId) setLocation("/"); }, [walletId, setLocation]);
   if (!walletId) return null;
 
-  const articles = data?.Data || [];
+  const articles = Array.isArray(data?.Data) ? data!.Data : [];
   const tags = ["ALL", "BITCOIN", "ETHEREUM", "REGULATION", "DEFI", "NFT", "ALTCOIN"];
-  const filtered = filter === "ALL" ? articles : articles.filter((a) => a.tags.toUpperCase().includes(filter));
+  const filtered = filter === "ALL"
+    ? articles
+    : articles.filter((a) => (a.tags || "").toUpperCase().includes(filter));
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
