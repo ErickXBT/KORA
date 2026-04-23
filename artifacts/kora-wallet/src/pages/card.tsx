@@ -7,6 +7,23 @@ import { useWallet } from "@/hooks/use-wallet";
 import { useToast } from "@/hooks/use-toast";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Globe, Zap, ShieldCheck, Smartphone } from "lucide-react";
+import logo from "@/assets/kora-logo.png";
+
+function hashStr(s: string): number {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h >>> 0;
+}
+
+function generateCardNumber(seed: string): string {
+  if (!seed) return "4242 2625 •••• ••••";
+  const h1 = hashStr(seed).toString().padStart(8, "0").slice(-4);
+  const h2 = hashStr(seed + "kora").toString().padStart(8, "0").slice(-4);
+  return `4242 2625 ${h1} ${h2}`;
+}
 
 const COUNTRIES = [
   "United States", "Indonesia", "Singapore", "Japan", "United Kingdom",
@@ -95,31 +112,58 @@ export default function Card() {
         >
           <motion.div
             style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-            className="relative w-[420px] h-[260px] rounded-3xl p-7 text-white overflow-hidden"
+            className="relative w-[460px] h-[290px] rounded-[28px] p-7 text-white overflow-hidden shadow-[0_30px_60px_-15px_rgba(255,38,37,0.5)]"
           >
-            {/* gradient layers */}
-            <div className="absolute inset-0 bg-gradient-to-br from-red-500 via-primary to-red-900 rounded-3xl" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-white/10 rounded-3xl" />
-            <div className="absolute -top-32 -right-32 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            {/* solid red base */}
+            <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-[#FF3D3C] via-[#FF2625] to-[#D81E1D]" />
+
+            {/* huge faded logo watermark in center */}
+            <img
+              src={logo}
+              alt=""
+              aria-hidden
+              className="absolute -left-16 top-1/2 -translate-y-1/2 w-[420px] h-[420px] object-contain opacity-30 mix-blend-overlay pointer-events-none select-none"
+            />
+
+            {/* subtle highlight */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/10 rounded-[28px]" />
+            <div className="absolute -top-32 -right-32 w-64 h-64 bg-white/15 rounded-full blur-3xl" />
 
             <div className="relative h-full flex flex-col justify-between">
+              {/* Top row: KORA text + KORA logo (white mark) */}
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="text-xs tracking-widest opacity-80">KORA</div>
-                  <div className="text-[10px] tracking-wider opacity-60 mt-0.5">CRYPTO MASTERCARD</div>
+                  <div className="text-2xl font-black tracking-wide leading-none">KORA</div>
+                  <div className="text-[10px] tracking-[0.2em] opacity-90 mt-1.5 font-semibold">CRYPTO MASTERCARD</div>
                 </div>
-                <div className="w-10 h-7 rounded bg-gradient-to-br from-amber-300 to-amber-500 shadow-inner" />
+                <img
+                  src={logo}
+                  alt="KORA"
+                  className="w-14 h-14 object-contain mix-blend-screen"
+                />
               </div>
 
-              <div className="font-mono text-2xl tracking-[0.25em] [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
-                4242 2625 0000 KORA
+              {/* Chip */}
+              <div className="absolute left-7 top-[88px]">
+                <div className="w-12 h-9 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-inner ring-1 ring-amber-700/40 relative overflow-hidden">
+                  <div className="absolute inset-1 grid grid-cols-2 grid-rows-3 gap-px opacity-40">
+                    {Array.from({ length: 6 }).map((_, i) => <div key={i} className="bg-amber-800/40 rounded-[1px]" />)}
+                  </div>
+                </div>
               </div>
 
+              {/* Card number (auto-generated from order data) */}
+              <div className="font-mono text-[17px] tracking-[0.18em] [text-shadow:0_2px_4px_rgba(0,0,0,0.4)] -mt-2">
+                {generateCardNumber(cardOrder?.name || name || walletId || "")}
+              </div>
+
+              {/* Bottom row */}
               <div className="flex items-end justify-between">
                 <div>
-                  <div className="text-[10px] opacity-70 tracking-widest">CARDHOLDER</div>
-                  <div className="text-sm font-bold tracking-wider mt-0.5">{name.toUpperCase() || "YOUR NAME"}</div>
+                  <div className="text-[10px] opacity-80 tracking-[0.2em] font-bold">CARD HOLDER</div>
+                  <div className="text-sm font-bold tracking-wider mt-1">
+                    {(cardOrder?.name || name).toUpperCase() || "YOUR NAME"}
+                  </div>
                 </div>
                 {/* Mastercard mark */}
                 <div className="relative w-14 h-9">
