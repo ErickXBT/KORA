@@ -32,10 +32,10 @@ export default function Markets() {
 
   return (
     <AppLayout>
-      <div className="max-w-7xl mx-auto w-full px-6 py-8">
-        <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
+      <div className="max-w-7xl mx-auto w-full px-4 md:px-6 py-6 md:py-8">
+        <div className="flex items-end justify-between mb-5 md:mb-6 flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-black tracking-wider text-white">MARKETS</h1>
+            <h1 className="text-2xl md:text-3xl font-black tracking-wider text-white">MARKETS</h1>
             <p className="text-xs text-muted-foreground mt-1">Top 100 cryptocurrencies by market cap</p>
           </div>
           <div className="relative w-full md:w-72">
@@ -49,14 +49,15 @@ export default function Markets() {
         </div>
 
         <div className="rounded-2xl border border-border/40 bg-card overflow-hidden">
-          <div className="grid grid-cols-12 gap-3 px-5 py-3 text-[10px] tracking-widest text-muted-foreground font-bold border-b border-border/40 bg-secondary/30">
+          {/* Header row */}
+          <div className="grid grid-cols-9 md:grid-cols-12 gap-2 px-4 md:px-5 py-3 text-[10px] tracking-widest text-muted-foreground font-bold border-b border-border/40 bg-secondary/30">
             <div className="col-span-1">#</div>
-            <div className="col-span-3">NAME</div>
+            <div className="col-span-4 md:col-span-3">NAME</div>
             <div className="col-span-2 text-right">PRICE</div>
-            <div className="col-span-1 text-right">24H</div>
+            <div className="col-span-2 md:col-span-1 text-right">24H</div>
             <div className="col-span-2 text-right hidden md:block">MARKET CAP</div>
             <div className="col-span-1 text-right hidden md:block">VOLUME</div>
-            <div className="col-span-2 text-right">7D</div>
+            <div className="col-span-2 text-right hidden sm:block">7D</div>
           </div>
 
           {isLoading ? (
@@ -74,23 +75,23 @@ export default function Markets() {
                   key={c.id}
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: Math.min(i * 0.01, 0.3) }}
                   onClick={() => setSelected(c)}
-                  className="w-full grid grid-cols-12 gap-3 items-center px-5 py-3 border-b border-border/20 hover:bg-secondary/30 transition-colors text-left"
+                  className="w-full grid grid-cols-9 md:grid-cols-12 gap-2 items-center px-4 md:px-5 py-3 border-b border-border/20 hover:bg-secondary/30 transition-colors text-left"
                 >
                   <div className="col-span-1 text-xs text-muted-foreground">{c.market_cap_rank}</div>
-                  <div className="col-span-3 flex items-center gap-3">
-                    <img src={c.image} alt="" className="w-7 h-7 rounded-full" />
+                  <div className="col-span-4 md:col-span-3 flex items-center gap-2">
+                    <img src={c.image} alt="" className="w-6 h-6 md:w-7 md:h-7 rounded-full flex-shrink-0" />
                     <div className="min-w-0">
-                      <div className="text-sm font-bold text-white truncate">{c.name}</div>
+                      <div className="text-xs md:text-sm font-bold text-white truncate">{c.name}</div>
                       <div className="text-[10px] text-muted-foreground uppercase">{c.symbol}</div>
                     </div>
                   </div>
-                  <div className="col-span-2 text-right text-sm text-white font-medium">{fmt(c.current_price, 6)}</div>
-                  <div className={`col-span-1 text-right text-xs font-bold ${change >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  <div className="col-span-2 text-right text-xs md:text-sm text-white font-medium">{fmt(c.current_price, 6)}</div>
+                  <div className={`col-span-2 md:col-span-1 text-right text-xs font-bold ${change >= 0 ? "text-green-500" : "text-red-500"}`}>
                     {change >= 0 ? "+" : ""}{change.toFixed(2)}%
                   </div>
                   <div className="col-span-2 text-right text-sm text-white hidden md:block">{fmt(c.market_cap)}</div>
                   <div className="col-span-1 text-right text-xs text-muted-foreground hidden md:block">{fmt(c.total_volume)}</div>
-                  <div className="col-span-2 h-10">
+                  <div className="col-span-2 h-10 hidden sm:block">
                     {sparkData.length > 0 && (
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={sparkData}>

@@ -49,17 +49,17 @@ export default function Trade() {
 
   return (
     <AppLayout>
-      <div className="max-w-6xl mx-auto w-full px-6 py-8">
-        <div className="flex items-start justify-between mb-8">
+      <div className="max-w-6xl mx-auto w-full px-4 md:px-6 py-6 md:py-8">
+        <div className="flex items-start justify-between mb-6 md:mb-8">
           <div>
-            <h1 className="text-3xl font-black tracking-wider text-white">TRADE</h1>
+            <h1 className="text-2xl md:text-3xl font-black tracking-wider text-white">TRADE</h1>
             <p className="text-xs text-muted-foreground mt-1">@{walletId.toLowerCase()}</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="icon" onClick={() => setSettings(true)} className="rounded-full border-border/40">
               <Settings className="w-4 h-4" />
             </Button>
-            <Button variant="outline" onClick={() => setLocation("/")} className="rounded-full border-border/40 text-xs font-bold tracking-wider">
+            <Button variant="outline" onClick={() => setLocation("/")} className="hidden sm:flex rounded-full border-border/40 text-xs font-bold tracking-wider">
               DISCONNECT
             </Button>
           </div>

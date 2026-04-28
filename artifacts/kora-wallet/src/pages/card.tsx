@@ -89,12 +89,12 @@ export default function Card() {
 
   return (
     <AppLayout>
-      <div className="max-w-6xl mx-auto w-full px-6 py-12">
+      <div className="max-w-6xl mx-auto w-full px-4 md:px-6 py-8 md:py-12">
         <div className="text-center mb-10">
           <div className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-[10px] font-bold tracking-widest mb-3">
             INTRODUCING KORA CARD
           </div>
-          <h1 className="text-5xl md:text-6xl font-black tracking-tight text-white">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white">
             Spend Crypto. <span className="bg-gradient-to-r from-primary to-red-500 bg-clip-text text-transparent">Anywhere.</span>
           </h1>
           <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
@@ -107,12 +107,12 @@ export default function Card() {
           ref={cardRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="flex justify-center mb-16"
+          className="flex justify-center mb-12 px-4"
           style={{ perspective: 1000 }}
         >
           <motion.div
-            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-            className="relative w-[460px] h-[290px] rounded-[28px] p-7 text-white overflow-hidden shadow-[0_30px_60px_-15px_rgba(255,38,37,0.5)]"
+            style={{ rotateX, rotateY, transformStyle: "preserve-3d", aspectRatio: "1.586 / 1" }}
+            className="relative w-full max-w-[460px] rounded-[28px] p-5 sm:p-7 text-white overflow-hidden shadow-[0_30px_60px_-15px_rgba(255,38,37,0.5)]"
           >
             {/* solid red base */}
             <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-[#FF3D3C] via-[#FF2625] to-[#D81E1D]" />

@@ -33,8 +33,8 @@ export function CoinGrid({ initialCount = 12 }: { initialCount?: number }) {
             className="pl-9 h-9 bg-secondary/40 border-border/40 text-sm rounded-full"
           />
         </div>
-        <Button variant="secondary" size="sm" className="rounded-full text-xs font-bold gap-1.5">
-          <Plus className="w-3 h-3" /> REQUEST COIN
+        <Button variant="secondary" size="sm" className="rounded-full text-xs font-bold gap-1.5 flex-shrink-0">
+          <Plus className="w-3 h-3" /> <span className="hidden sm:inline">REQUEST COIN</span>
         </Button>
       </div>
 

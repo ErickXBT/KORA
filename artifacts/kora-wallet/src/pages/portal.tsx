@@ -19,7 +19,7 @@ export default function Portal() {
 
   return (
     <AppLayout>
-      <div className="max-w-5xl mx-auto w-full px-6 py-12">
+      <div className="max-w-5xl mx-auto w-full px-4 md:px-6 py-8 md:py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-black tracking-wider text-white">KORA PORTAL</h1>
           <p className="text-muted-foreground mt-3">Your gateway to the entire KORA ecosystem</p>

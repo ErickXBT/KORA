@@ -55,7 +55,7 @@ export default function Creators() {
 
   return (
     <AppLayout>
-      <div className="max-w-2xl mx-auto w-full px-6 py-12">
+      <div className="max-w-2xl mx-auto w-full px-4 md:px-6 py-8 md:py-12">
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-[10px] font-bold tracking-widest mb-3">
             <Twitter className="w-3 h-3" /> KORA CREATORS

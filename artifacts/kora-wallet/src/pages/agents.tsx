@@ -39,9 +39,9 @@ export default function Agents() {
 
   return (
     <AppLayout>
-      <div className="max-w-6xl mx-auto w-full px-6 py-10">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-black tracking-wider text-white">KORA AGENTS</h1>
+      <div className="max-w-6xl mx-auto w-full px-4 md:px-6 py-6 md:py-10">
+        <div className="text-center mb-8 md:mb-10">
+          <h1 className="text-3xl md:text-4xl font-black tracking-wider text-white">KORA AGENTS</h1>
           <p className="text-muted-foreground mt-2 max-w-xl mx-auto text-sm">
             Deploy autonomous earning agents on the KORA network. Each tier earns passive KORA every day.
           </p>

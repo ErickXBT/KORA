@@ -39,7 +39,7 @@ export default function News() {
 
   return (
     <AppLayout>
-      <div className="max-w-6xl mx-auto w-full px-6 py-8">
+      <div className="max-w-6xl mx-auto w-full px-4 md:px-6 py-6 md:py-8">
         <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
           <div>
             <div className="flex items-center gap-2 text-primary text-[10px] font-bold tracking-widest mb-2">
